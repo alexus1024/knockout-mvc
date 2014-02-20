@@ -90,6 +90,16 @@ namespace PerpetuumSoft.Knockout
       return new HtmlString(GetInitializeData(model, true));
     }
 
+	  public HtmlString AsyncLoadFullViewModel(string actionName, string controllerName, string afterLoadHandlerName = null)
+	  {
+		  var sb = new StringBuilder();
+		  sb.AppendLine(@"<script type=""text/javascript""> ");
+		  sb.AppendLine(@"try{viewModel['IsBusy'](true);}catch (e){console.log(e);}");
+		  sb.AppendLine(string.Format(@"executeOnServer({0}, '{1}', {2})", ViewModelName, Url().Action(actionName, controllerName), afterLoadHandlerName));
+		  sb.AppendLine(@"</script>");
+		  return new HtmlString(sb.ToString());
+	  }
+
     public HtmlString LazyApply(TModel model, string actionName, string controllerName)
     {
       var sb = new StringBuilder();

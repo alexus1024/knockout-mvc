@@ -16,23 +16,35 @@ namespace PerpetuumSoft.Knockout
     }
   }
 
-  public class KnockoutBindingItem<TModel, TResult> : KnockoutBindingItem
-  {
-    public Expression<Func<TModel, TResult>> Expression { get; set; }
+	public class KnockoutExpressionBindingItem: KnockoutBindingItem
+	{
+		public Expression ExpressionRaw { get; set; }
 
-    public override string GetKnockoutExpression(KnockoutExpressionData data)
-    {      
-      string value = KnockoutExpressionConverter.Convert(Expression, data);
-      if (string.IsNullOrWhiteSpace(value))
-        value = "$data";
+		public override string GetKnockoutExpression(KnockoutExpressionData data)
+		{
+			string value = KnockoutExpressionConverter.Convert(ExpressionRaw, data);
+			if (string.IsNullOrWhiteSpace(value))
+				value = "$data";
 
-      var sb = new StringBuilder();
+			var sb = new StringBuilder();
 
-      sb.Append(Name);
-      sb.Append(" : ");      
-      sb.Append(value);
+			sb.Append(Name);
+			sb.Append(" : ");
+			sb.Append(value);
 
-      return sb.ToString();
-    }
-  }  
+			return sb.ToString();
+		}
+
+	}
+
+	public class KnockoutBindingItem<TModel, TResult> : KnockoutExpressionBindingItem
+	{
+		public Expression<Func<TModel, TResult>> Expression
+		{
+			get { return (Expression<Func<TModel, TResult>>)ExpressionRaw; }
+			set { ExpressionRaw = value; }
+		}
+
+
+	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Linq.Expressions;
 using System.Web;
@@ -169,9 +170,9 @@ namespace PerpetuumSoft.Knockout
     }
 
     // *** Custom ***    
-    public KnockoutBinding<TModel> Custom(string name, string value)
+    public KnockoutBinding<TModel> Custom(string name, string value, Boolean needQuotes=false)
     {
-      Items.Add(new KnockoutBindingStringItem(name, value));
+      Items.Add(new KnockoutBindingStringItem(name, value, needQuotes));
       return this;
     }
 
@@ -180,6 +181,70 @@ namespace PerpetuumSoft.Knockout
         Items.Add(new KnockoutBindingItem<TModel, object> { Name = name, Expression = binding });
         return this;
     }
+
+	/// <summary>
+	/// binding like "tooltip : {text : Amount, delay : Delay}"
+	/// </summary>
+	public KnockoutBinding<TModel> CustomObject(string name, params KnockoutBindingPropertyInfo[] properties)
+	{
+		var item = new KnockoutBingindComplexItem() { Name = name };
+
+		foreach (var property in properties)
+		{
+			if (property.IsExpression)
+			{
+				item.Add(new KnockoutExpressionBindingItem() {Name = property.Name, ExpressionRaw = property.Expression});
+			}
+			else
+			{
+				item.Add(new KnockoutBindingStringItem() {Name = property.Name, Value = property.Value});
+			}
+		}
+
+		Items.Add(item);
+		return this;
+	}
+
+
+	  // *** Tooltip ***    
+
+	public KnockoutBinding<TModel> Tooltip(Expression<Func<TModel, object>> titleBinding, Int32 delayShowMs = 0, Int32 delayHideMs = 0)
+	{
+
+		var delayItem = new KnockoutBingindComplexItem() {Name = "delay"};
+		delayItem.Add(new KnockoutBindingStringItem("show", delayShowMs.ToString(CultureInfo.InvariantCulture)));
+		delayItem.Add(new KnockoutBindingStringItem("hide", delayHideMs.ToString(CultureInfo.InvariantCulture)));
+
+		var item = new KnockoutBingindComplexItem() { Name = "tooltip" };
+		item.Add(new KnockoutExpressionBindingItem() { Name = "title", ExpressionRaw = titleBinding });
+		item.Add(delayItem);
+
+		Items.Add(item);
+		return this;
+
+		//CustomObject("tooltip", new KnockoutBindingPropertyInfo {Name = "title", Expression = titleBinding},
+		//	new KnockoutBindingPropertyInfo());
+
+	}
+
+	public KnockoutBinding<TModel> TooltipForDropDownSelectedText(Int32 delayShowMs = 0, Int32 delayHideMs = 0, int maxWidth = 150)
+	{
+		var delayItem = new KnockoutBingindComplexItem() { Name = "delay" };
+		delayItem.Add(new KnockoutBindingStringItem("show", delayShowMs.ToString(CultureInfo.InvariantCulture)));
+		delayItem.Add(new KnockoutBindingStringItem("hide", delayHideMs.ToString(CultureInfo.InvariantCulture)));
+
+		var item = new KnockoutBingindComplexItem() { Name = "tooltipForDropDownSelectedText" };
+		item.Add(new KnockoutBindingStringItem("maxWidth", maxWidth.ToString(CultureInfo.InvariantCulture)));
+
+		item.Add(delayItem);
+
+		Items.Add(item);
+		return this;
+
+		//CustomObject("tooltip", new KnockoutBindingPropertyInfo {Name = "title", Expression = titleBinding},
+		//	new KnockoutBindingPropertyInfo());
+
+	}
 
     // *** Common ***
 
