@@ -245,7 +245,13 @@ namespace PerpetuumSoft.Knockout
         string index = Visit(m.Arguments[0]);
         return array + "[" + index + "]";
       }
-      if (m.Arguments.Count == 0 && m.Method.Name == "ToString")
+	  if (m.Object != null && m.Object.Type.FullName == "System.Web.Mvc.UrlHelper")
+	  {
+		  MethodCallExpression expression = m;
+		  object result = Expression.Lambda(expression).Compile().DynamicInvoke();
+		  return string.Format("'{0}/'", result);
+	  }
+	  if (m.Arguments.Count == 0 && m.Method.Name == "ToString")
       {
         if (m.Object is ParameterExpression && lambdaFrom.Contains((m.Object as ParameterExpression).Name))
           return "$data";
