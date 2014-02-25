@@ -208,7 +208,7 @@ namespace PerpetuumSoft.Knockout
 
 	  // *** Tooltip ***    
 
-	public KnockoutBinding<TModel> Tooltip(Expression<Func<TModel, object>> titleBinding, Int32 delayShowMs = 0, Int32 delayHideMs = 0)
+	public KnockoutBinding<TModel> Tooltip(Expression<Func<TModel, object>> titleBinding, Int32 delayShowMs = 0, Int32 delayHideMs = 0, Placement placement = Placement.Top)
 	{
 
 		var delayItem = new KnockoutBingindComplexItem() {Name = "delay"};
@@ -217,6 +217,7 @@ namespace PerpetuumSoft.Knockout
 
 		var item = new KnockoutBingindComplexItem() { Name = "tooltip" };
 		item.Add(new KnockoutExpressionBindingItem() { Name = "title", ExpressionRaw = titleBinding });
+		item.Add(new KnockoutBindingStringItem("placement", placement.ToString().ToLower()));
 		item.Add(delayItem);
 
 		Items.Add(item);
@@ -225,6 +226,11 @@ namespace PerpetuumSoft.Knockout
 		//CustomObject("tooltip", new KnockoutBindingPropertyInfo {Name = "title", Expression = titleBinding},
 		//	new KnockoutBindingPropertyInfo());
 
+	}
+
+	public KnockoutBinding<TModel> Tooltip(Expression<Func<TModel, object>> titleBinding, Placement placement)
+	{
+		return Tooltip(titleBinding, 0, 0, placement);
 	}
 
 	public KnockoutBinding<TModel> TooltipForDropDownSelectedText(Int32 delayShowMs = 0, Int32 delayHideMs = 0, int maxWidth = 150)
