@@ -79,6 +79,7 @@
     <Compile Include="Binding\KnockoutBindingStringItem.cs" />
     <Compile Include="Binding\KnockoutObjectBindingItem.cs" />
     <Compile Include="Binding\Placement.cs" />
+    <Compile Include="Resharper.Annotation.cs" />
     <Compile Include="SubContexts\KnockoutCommonRegionContext.cs" />
     <Compile Include="SubContexts\KnockoutIfContext.cs" />
     <Compile Include="SubContexts\KnockoutWithContext.cs" />

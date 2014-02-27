@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using System.Web;
 using System.Web.Routing;
 using System.Linq.Expressions;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 namespace PerpetuumSoft.Knockout
@@ -90,7 +91,7 @@ namespace PerpetuumSoft.Knockout
       return new HtmlString(GetInitializeData(model, true));
     }
 
-	  public HtmlString AsyncLoadFullViewModel(string actionName, string controllerName, string afterLoadHandlerName = null)
+	public HtmlString AsyncLoadFullViewModel([AspMvcAction]string actionName, [AspMvcController]string controllerName, string afterLoadHandlerName = null)
 	  {
 		  var sb = new StringBuilder();
 		  sb.AppendLine(@"<script type=""text/javascript""> ");
