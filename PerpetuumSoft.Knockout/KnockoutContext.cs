@@ -59,7 +59,14 @@ namespace PerpetuumSoft.Knockout
       var mappingData = KnockoutJsModelBuilder.CreateMappingData<TModel>();
       if (mappingData == "{}")
       {
-		  sb.AppendLine(string.Format("var {0} = ko.mapping.fromJS({0}Js, {1}); ", ViewModelName, customMapping));
+	      if (string.IsNullOrWhiteSpace(customMapping))
+	      {
+			  sb.AppendLine(string.Format("var {0} = ko.mapping.fromJS({0}Js); ", ViewModelName));   
+	      }
+	      else
+		  {
+			  sb.AppendLine(string.Format("var {0} = ko.mapping.fromJS({0}Js, {1}); ", ViewModelName, customMapping));
+	      }
       }
       else
       {
