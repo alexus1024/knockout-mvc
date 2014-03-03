@@ -42,7 +42,7 @@ namespace PerpetuumSoft.Knockout
 
     private bool isInitialized;
 
-    private string GetInitializeData(TModel model, bool needBinding)
+    private string GetInitializeData(TModel model, bool needBinding, string customMapping = null)
     {
       if (isInitialized)
         return "";
@@ -59,7 +59,7 @@ namespace PerpetuumSoft.Knockout
       var mappingData = KnockoutJsModelBuilder.CreateMappingData<TModel>();
       if (mappingData == "{}")
       {
-        sb.AppendLine(string.Format("var {0} = ko.mapping.fromJS({0}Js); ", ViewModelName));
+		  sb.AppendLine(string.Format("var {0} = ko.mapping.fromJS({0}Js, {1}); ", ViewModelName, customMapping));
       }
       else
       {
@@ -78,7 +78,7 @@ namespace PerpetuumSoft.Knockout
       return new HtmlString(GetInitializeData(model, false));
     }
 
-    public HtmlString Apply(TModel model)
+    public HtmlString Apply(TModel model, string customMapping = null)
     {
       if (isInitialized)
       {
@@ -88,9 +88,8 @@ namespace PerpetuumSoft.Knockout
         sb.AppendLine(@"</script>");
         return new HtmlString(sb.ToString());
       }
-      return new HtmlString(GetInitializeData(model, true));
+	  return new HtmlString(GetInitializeData(model, true, customMapping));
     }
-
 	public HtmlString AsyncLoadFullViewModel([AspMvcAction]string actionName, [AspMvcController]string controllerName, string afterLoadHandlerName = null)
 	  {
 		  var sb = new StringBuilder();
