@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Text;
 using System.Linq.Expressions;
 using System.Web;
+using Newtonsoft.Json;
 
 namespace PerpetuumSoft.Knockout
 {
@@ -200,6 +201,28 @@ namespace PerpetuumSoft.Knockout
 				item.Add(new KnockoutBindingStringItem() {Name = property.Name, Value = property.Value});
 			}
 		}
+
+		Items.Add(item);
+		return this;
+	}
+
+	// *** list manipulation ***  
+	public KnockoutBinding<TModel> AddItem<T>(Expression<Func<TModel, object>> titleBinding, T prefilInstance)
+	{
+		var item = new KnockoutBingindComplexItem() { Name = "addItem" };
+		item.Add(new KnockoutExpressionBindingItem() { Name = "list", ExpressionRaw = titleBinding });
+		var templateInstance = JsonConvert.SerializeObject(prefilInstance).ToString(CultureInfo.InvariantCulture).Replace('"', '\'' );
+		item.Add(new KnockoutBindingStringItem("templateInstance", templateInstance, false));
+
+		Items.Add(item);
+		return this;
+	}
+
+	public KnockoutBinding<TModel> RemoveItem(Expression<Func<TModel, object>> titleBinding)
+	{
+		var item = new KnockoutBingindComplexItem() { Name = "removeItem" };
+		item.Add(new KnockoutExpressionBindingItem() { Name = "list", ExpressionRaw = titleBinding });
+		item.Add(new KnockoutBindingStringItem("index", "$index", false));
 
 		Items.Add(item);
 		return this;
