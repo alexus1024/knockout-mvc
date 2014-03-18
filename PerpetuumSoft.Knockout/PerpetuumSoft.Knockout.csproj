@@ -126,6 +126,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\listmanipulation.binding.js" />
     <Content Include="Scripts\perpetuum.knockout.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
