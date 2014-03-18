@@ -206,6 +206,22 @@ namespace PerpetuumSoft.Knockout
 		return this;
 	}
 
+	  /// <summary>
+	/// Биндинг с форматированием даты с использованием http://momentjs.com/
+	  /// </summary>
+	  /// <param name="titleBinding"></param>
+	  /// <param name="momentJsTimeFormat"></param>
+	  /// <returns></returns>
+	public KnockoutBinding<TModel> TextDateTimeFormat(Expression<Func<TModel, object>> titleBinding, string momentJsTimeFormat)
+	{
+		var item = new KnockoutBingindComplexItem() { Name = "textDateTimeFormat" };
+		item.Add(new KnockoutExpressionBindingItem() { Name = "value", ExpressionRaw = titleBinding });
+		item.Add(new KnockoutBindingStringItem("format", momentJsTimeFormat));
+
+		Items.Add(item);
+		return this;
+	}
+
 	// *** list manipulation ***  
 	public KnockoutBinding<TModel> AddItem<T>(Expression<Func<TModel, object>> titleBinding, T prefilInstance)
 	{
@@ -228,6 +244,7 @@ namespace PerpetuumSoft.Knockout
 		return this;
 	}
 
+	// *** list manipulation ***  
 
 	  // *** Tooltip ***    
 

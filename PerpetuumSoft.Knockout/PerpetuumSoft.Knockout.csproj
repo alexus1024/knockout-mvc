@@ -126,6 +126,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\textDateTimeFormat.binding.js" />
     <Content Include="Scripts\listmanipulation.binding.js" />
     <Content Include="Scripts\perpetuum.knockout.js" />
   </ItemGroup>
