@@ -201,6 +201,11 @@ namespace PerpetuumSoft.Knockout
       return GetContextPrefix() + "$index()";
     }
 
+	public string GetCounter()
+	{
+		return GetContextPrefix() + "$index() + 1";
+	}
+
     public virtual KnockoutExpressionData CreateData()
     {
       return new KnockoutExpressionData { InstanceNames = new[] { GetInstanceName() } };
