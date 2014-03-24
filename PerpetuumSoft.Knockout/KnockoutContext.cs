@@ -102,7 +102,10 @@ namespace PerpetuumSoft.Knockout
 		  var sb = new StringBuilder();
 		  sb.AppendLine(@"<script type=""text/javascript""> ");
 		  sb.AppendLine(@"try{viewModel['IsBusy'](true);}catch (e){console.log(e);}");
-		  sb.AppendLine(string.Format(@"executeOnServer({0}, '{1}', {2})", ViewModelName, Url().Action(actionName, controllerName), afterLoadHandlerName));
+		  if (string.IsNullOrWhiteSpace(afterLoadHandlerName))
+			  sb.AppendLine(string.Format(@"executeOnServer({0}, '{1}')", ViewModelName, Url().Action(actionName, controllerName)));
+		  else
+			sb.AppendLine(string.Format(@"executeOnServer({0}, '{1}', {2})", ViewModelName, Url().Action(actionName, controllerName), afterLoadHandlerName));
 		  sb.AppendLine(@"</script>");
 		  return new HtmlString(sb.ToString());
 	  }
