@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
+using JetBrains.Annotations;
 
 namespace PerpetuumSoft.Knockout
 {
@@ -157,7 +158,7 @@ namespace PerpetuumSoft.Knockout
       return tagBuilder;
     }
 
-    public KnockoutTagBuilder<TModel> Button(string caption, string actionName, string controllerName, object routeValues = null, object htmlAttributes = null)
+    public KnockoutTagBuilder<TModel> Button(string caption, [AspMvcAction]string actionName, [AspMvcController]string controllerName, object routeValues = null, object htmlAttributes = null)
     {
       var tagBuilder = new KnockoutTagBuilder<TModel>(Context, "button", InstanceNames, Aliases);
       tagBuilder.ApplyAttributes(htmlAttributes);
@@ -166,7 +167,7 @@ namespace PerpetuumSoft.Knockout
       return tagBuilder;
     }
 
-    public KnockoutTagBuilder<TModel> HyperlinkButton(string caption, string actionName, string controllerName, object routeValues = null, object htmlAttributes = null)
+	public KnockoutTagBuilder<TModel> HyperlinkButton(string caption, [AspMvcAction]string actionName, [AspMvcController]string controllerName, object routeValues = null, object htmlAttributes = null)
     {
       var tagBuilder = new KnockoutTagBuilder<TModel>(Context, "a", InstanceNames, Aliases);
       tagBuilder.ApplyAttributes(htmlAttributes);
@@ -174,9 +175,9 @@ namespace PerpetuumSoft.Knockout
       tagBuilder.Click(actionName, controllerName, routeValues);
       tagBuilder.SetInnerHtml(HttpUtility.HtmlEncode(caption));
       return tagBuilder;
-    }    
+    }
 
-    public KnockoutFormContext<TModel> Form(string actionName, string controllerName, object routeValues = null, object htmlAttributes = null)
+	public KnockoutFormContext<TModel> Form([AspMvcAction]string actionName, [AspMvcController]string controllerName, object routeValues = null, object htmlAttributes = null)
     {
       var formContext = new KnockoutFormContext<TModel>(
         viewContext, 

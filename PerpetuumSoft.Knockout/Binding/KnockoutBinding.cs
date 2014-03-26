@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Text;
 using System.Linq.Expressions;
 using System.Web;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 namespace PerpetuumSoft.Knockout
@@ -150,7 +151,7 @@ namespace PerpetuumSoft.Knockout
     }
 
     // *** Events ***
-    protected virtual KnockoutBinding<TModel> Event(string eventName, string actionName, string controllerName, object routeValues)
+	protected virtual KnockoutBinding<TModel> Event([AspMvcAction]string eventName, [AspMvcController]string actionName, string controllerName, object routeValues)
     {
       var sb = new StringBuilder();
       sb.Append("function() {");
@@ -160,12 +161,12 @@ namespace PerpetuumSoft.Knockout
       return this;
     }
 
-    public KnockoutBinding<TModel> Click(string actionName, string controllerName, object routeValues = null)
+	public KnockoutBinding<TModel> Click([AspMvcAction]string actionName, [AspMvcController]string controllerName, object routeValues = null)
     {
       return Event("click", actionName, controllerName, routeValues);
     }
 
-    public KnockoutBinding<TModel> Submit(string actionName, string controllerName, object routeValues = null)
+	public KnockoutBinding<TModel> Submit([AspMvcAction]string actionName, [AspMvcController]string controllerName, object routeValues = null)
     {
       return Event("submit", actionName, controllerName, routeValues);
     }
