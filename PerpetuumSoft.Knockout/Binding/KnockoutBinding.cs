@@ -257,6 +257,17 @@ namespace PerpetuumSoft.Knockout
 
 	// *** list manipulation ***  
 
+	// *** Custom ***    
+	public KnockoutBinding<TModel> Template(Expression<Func<TModel, object>> name, Expression<Func<TModel, object>> dataPath)
+	{
+		var item = new KnockoutBingindComplexItem() { Name = "template" };
+		item.Add(new KnockoutExpressionBindingItem() { Name = "data", ExpressionRaw = dataPath });
+		item.Add(new KnockoutExpressionBindingItem() { Name = "name", ExpressionRaw = name });
+
+		Items.Add(item);
+		return this;
+	}
+
 	  // *** Tooltip ***    
 
 	public KnockoutBinding<TModel> Tooltip(Expression<Func<TModel, object>> titleBinding, Int32 delayShowMs = 0, Int32 delayHideMs = 0, Placement placement = Placement.Top)
