@@ -224,10 +224,10 @@ namespace PerpetuumSoft.Knockout
 	}
 
 	// *** list manipulation ***  
-	public KnockoutBinding<TModel> AddItem<T>(Expression<Func<TModel, object>> titleBinding, T prefilInstance)
+	public KnockoutBinding<TModel> AddItem<T>(Expression<Func<TModel, object>> listPath, T prefilInstance)
 	{
 		var item = new KnockoutBingindComplexItem() { Name = "addItem" };
-		item.Add(new KnockoutExpressionBindingItem() { Name = "list", ExpressionRaw = titleBinding });
+		item.Add(new KnockoutExpressionBindingItem() { Name = "list", ExpressionRaw = listPath });
 		var templateInstance = JsonConvert.SerializeObject(prefilInstance).ToString(CultureInfo.InvariantCulture).Replace('"', '\'' );
 		item.Add(new KnockoutBindingStringItem("templateInstance", templateInstance, false));
 
@@ -235,10 +235,20 @@ namespace PerpetuumSoft.Knockout
 		return this;
 	}
 
-	public KnockoutBinding<TModel> RemoveItem(Expression<Func<TModel, object>> titleBinding)
+	public KnockoutBinding<TModel> AddItem(Expression<Func<TModel, object>> listPath, Expression<Func<TModel, object>> instanceTemplatePath)
+	{
+		var item = new KnockoutBingindComplexItem() { Name = "addItem" };
+		item.Add(new KnockoutExpressionBindingItem() { Name = "list", ExpressionRaw = listPath });
+		item.Add(new KnockoutExpressionBindingItem() { Name = "templateInstance", ExpressionRaw = instanceTemplatePath });
+		
+		Items.Add(item);
+		return this;
+	}
+
+	public KnockoutBinding<TModel> RemoveItem(Expression<Func<TModel, object>> listPath)
 	{
 		var item = new KnockoutBingindComplexItem() { Name = "removeItem" };
-		item.Add(new KnockoutExpressionBindingItem() { Name = "list", ExpressionRaw = titleBinding });
+		item.Add(new KnockoutExpressionBindingItem() { Name = "list", ExpressionRaw = listPath });
 		item.Add(new KnockoutBindingStringItem("index", "$index", false));
 
 		Items.Add(item);
@@ -264,7 +274,7 @@ namespace PerpetuumSoft.Knockout
 		Items.Add(item);
 		return this;
 
-		//CustomObject("tooltip", new KnockoutBindingPropertyInfo {Name = "title", Expression = titleBinding},
+		//CustomObject("tooltip", new KnockoutBindingPropertyInfo {Name = "title", Expression = listPath},
 		//	new KnockoutBindingPropertyInfo());
 
 	}
@@ -288,7 +298,7 @@ namespace PerpetuumSoft.Knockout
 		Items.Add(item);
 		return this;
 
-		//CustomObject("tooltip", new KnockoutBindingPropertyInfo {Name = "title", Expression = titleBinding},
+		//CustomObject("tooltip", new KnockoutBindingPropertyInfo {Name = "title", Expression = listPath},
 		//	new KnockoutBindingPropertyInfo());
 
 	}
