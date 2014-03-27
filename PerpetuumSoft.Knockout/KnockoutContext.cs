@@ -146,20 +146,20 @@ namespace PerpetuumSoft.Knockout
       }
     }
 
-    public KnockoutForeachContext<TItem> Foreach<TItem>(Expression<Func<TModel, IList<TItem>>> binding)
+    public KnockoutForeachContext<TItem> Foreach<TItem>(Expression<Func<TModel, IList<TItem>>> binding, string afterRender = null)
     {
       var expression = KnockoutExpressionConverter.Convert(binding, CreateData());
-      var regionContext = new KnockoutForeachContext<TItem>(viewContext, expression);
+	  var regionContext = new KnockoutForeachContext<TItem>(viewContext, expression, afterRender);
       regionContext.WriteStart(viewContext.Writer);
       regionContext.ContextStack = ContextStack;
       ContextStack.Add(regionContext);
       return regionContext;
     }
 
-    public KnockoutWithContext<TItem> With<TItem>(Expression<Func<TModel, TItem>> binding)
+	public KnockoutWithContext<TItem> With<TItem>(Expression<Func<TModel, TItem>> binding)
     {
       var expression = KnockoutExpressionConverter.Convert(binding, CreateData());
-      var regionContext = new KnockoutWithContext<TItem>(viewContext, expression);
+	  var regionContext = new KnockoutWithContext<TItem>(viewContext, expression);
       regionContext.WriteStart(viewContext.Writer);
       regionContext.ContextStack = ContextStack;
       ContextStack.Add(regionContext);
