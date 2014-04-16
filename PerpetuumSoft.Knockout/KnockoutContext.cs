@@ -201,9 +201,9 @@ namespace PerpetuumSoft.Knockout
       return GetContextPrefix() + "$index()";
     }
 
-	public string GetCounter()
+	public string GetCounter(int indexOffset = 1)
 	{
-		return GetContextPrefix() + "$index() + 1";
+		return GetContextPrefix() + string.Format("$index() + {0}", indexOffset);
 	}
 
     public virtual KnockoutExpressionData CreateData()
