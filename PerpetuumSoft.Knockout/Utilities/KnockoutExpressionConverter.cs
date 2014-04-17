@@ -31,7 +31,8 @@ namespace PerpetuumSoft.Knockout
     //TODO: rewrite
     public string GetterSetterCorrecting(string expr)
     {
-      int cnt = expr.Count(c => char.IsLetterOrDigit(c) || c == '(' || c == ')' || c == '_' || c == '.' || c == '$');
+      int cnt = expr.Count(c => char.IsLetterOrDigit(c) || c == '(' || c == ')' || c == '_' || c == '.' || c == '$' ||
+		  c == '[' || c == ']');
       if (cnt == expr.Length && expr.EndsWith("()") && !data.NeedBracketsForAllMembers)
         expr = expr.Substring(0, expr.Length - 2);
       return expr;
