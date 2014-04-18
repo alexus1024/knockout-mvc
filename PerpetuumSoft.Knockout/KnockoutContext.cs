@@ -16,11 +16,28 @@ namespace PerpetuumSoft.Knockout
     string GetIndex();
   }
 
-  public class KnockoutContext<TModel> : IKnockoutContext
+	public class KnockoutContextWithBase<TModel, TBaseModel> : KnockoutContext<TModel>
+		where TModel : TBaseModel
+	{
+		public KnockoutContextWithBase(ViewContext viewContext) : base(viewContext)
+		{
+		}
+
+		public KnockoutContext<TBaseModel> GetBaseContext()
+		{
+			var baseContext = new KnockoutContext<TBaseModel>(this.viewContext);
+			baseContext.model = (TBaseModel) this.model;
+			baseContext.ContextStack = this.ContextStack;
+			return baseContext;
+		}
+
+	}
+
+	public class KnockoutContext<TModel> : IKnockoutContext
   {
     public const string ViewModelName = "viewModel";
 
-    private TModel model;
+	internal TModel model;
 
     public TModel Model
     {
@@ -30,7 +47,7 @@ namespace PerpetuumSoft.Knockout
       }
     }
 
-    protected List<IKnockoutContext> ContextStack { get; set; }
+    internal List<IKnockoutContext> ContextStack { get; set; }
 
     public KnockoutContext(ViewContext viewContext)
     {
@@ -38,7 +55,7 @@ namespace PerpetuumSoft.Knockout
       ContextStack = new List<IKnockoutContext>();
     }
 
-    private readonly ViewContext viewContext;
+    protected readonly ViewContext viewContext;
 
     private bool isInitialized;
 

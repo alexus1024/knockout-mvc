@@ -8,5 +8,10 @@ namespace PerpetuumSoft.Knockout
     {
       return new KnockoutContext<TModel>(helper.ViewContext);
     }
+
+	public static KnockoutContextWithBase<TModel, TModelBase> CreateKnockoutContextWithBase<TModel, TModelBase>(this HtmlHelper<TModel> helper) where TModel : TModelBase
+	{
+		return new KnockoutContextWithBase<TModel, TModelBase>(helper.ViewContext);
+	}
   }
 }
