@@ -25,7 +25,7 @@ namespace PerpetuumSoft.Knockout
 		  return;
       if (type.IsClass && type.Namespace.Equals("System.Data.Entity.DynamicProxies"))
           type = type.BaseType;
-      foreach (var property in type.GetProperties())
+      foreach (var property in type.GetProperties(BindingFlags.Instance))
       {
         if (property.GetCustomAttributes(typeof(Newtonsoft.Json.JsonIgnoreAttribute), false).Length > 0)
           continue;
