@@ -208,22 +208,39 @@ namespace PerpetuumSoft.Knockout
 	}
 
 	  /// <summary>
-	/// Биндинг с форматированием даты с использованием http://momentjs.com/
+	  /// Биндинг с форматированием даты с использованием http://momentjs.com/
 	  /// </summary>
 	  /// <param name="titleBinding"></param>
 	  /// <param name="momentJsTimeFormat"></param>
+	/// <param name="isFromNow">использовать ли .fromNow()</param>
 	  /// <returns></returns>
-	public KnockoutBinding<TModel> TextDateTimeFormat(Expression<Func<TModel, object>> titleBinding, string momentJsTimeFormat)
+	KnockoutBinding<TModel> TextDateTimeFormatHelper(Expression<Func<TModel, object>> titleBinding, string momentJsTimeFormat, Boolean isFromNow, Boolean isFromNowPostfix)
 	{
 		var item = new KnockoutBingindComplexItem() { Name = "textDateTimeFormat" };
 		item.Add(new KnockoutExpressionBindingItem() { Name = "value", ExpressionRaw = titleBinding });
 		item.Add(new KnockoutBindingStringItem("format", momentJsTimeFormat));
+		if (isFromNow)
+		{
+			item.Add(new KnockoutBindingStringItem("fromNow", isFromNowPostfix? "false":"true"));
+		}
 
 		Items.Add(item);
 		return this;
 	}
 
-	// *** list manipulation ***  
+	  public KnockoutBinding<TModel> TextDateTimeFormat(Expression<Func<TModel, object>> titleBinding,
+	                                                     string momentJsTimeFormat)
+	  {
+		  return TextDateTimeFormatHelper(titleBinding, momentJsTimeFormat, false, false);
+	  }
+
+	  public KnockoutBinding<TModel> TextDateTimeFormatFromNow(Expression<Func<TModel, object>> titleBinding,
+													 Boolean usePostfix = true)
+	  {
+		  return TextDateTimeFormatHelper(titleBinding, "", true, usePostfix);
+	  }
+
+	  // *** list manipulation ***  
 	public KnockoutBinding<TModel> AddItem<T>(Expression<Func<TModel, object>> listPath, T prefilInstance)
 	{
 		var item = new KnockoutBingindComplexItem() { Name = "addItem" };
