@@ -176,12 +176,17 @@ namespace PerpetuumSoft.Knockout
 	public KnockoutWithContext<TItem> With<TItem>(Expression<Func<TModel, TItem>> binding)
     {
       var expression = KnockoutExpressionConverter.Convert(binding, CreateData());
-	  var regionContext = new KnockoutWithContext<TItem>(viewContext, expression);
-      regionContext.WriteStart(viewContext.Writer);
-      regionContext.ContextStack = ContextStack;
-      ContextStack.Add(regionContext);
-      return regionContext;
+      return With<TItem>(expression);
     }
+
+	public KnockoutWithContext<TItem> With<TItem>(String expression)
+	{
+		var regionContext = new KnockoutWithContext<TItem>(viewContext, expression);
+		regionContext.WriteStart(viewContext.Writer);
+		regionContext.ContextStack = ContextStack;
+		ContextStack.Add(regionContext);
+		return regionContext;
+	}
 
     public KnockoutIfContext<TModel> If(Expression<Func<TModel, bool>> binding)
     {
