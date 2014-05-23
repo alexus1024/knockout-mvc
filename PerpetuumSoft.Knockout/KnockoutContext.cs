@@ -69,7 +69,7 @@ namespace PerpetuumSoft.Knockout
 
       var sb = new StringBuilder();
 
-      var json = JsonConvert.SerializeObject(model);
+      var json = this.JsonSerializeObject(model);
 
       sb.AppendLine(@"<script type=""text/javascript""> ");
       sb.AppendLine(string.Format("var {0}Js = {1};", ViewModelName, json));
@@ -280,5 +280,20 @@ namespace PerpetuumSoft.Knockout
     {
       return new UrlHelper(viewContext.RequestContext);
     }
+
+	private string JsonSerializeObject(TModel model)
+	{
+		var settings = new JsonSerializerSettings();
+		settings.StringEscapeHandling = StringEscapeHandling.EscapeHtml;
+		var serializer = JsonSerializer.CreateDefault(settings);
+
+		using (var sw = new System.IO.StringWriter())
+		using (var writer = new JsonTextWriter(sw))
+		{
+			serializer.Serialize(writer, model);
+			writer.Flush();
+			return sw.ToString();
+		}
+	}
   }
 }
