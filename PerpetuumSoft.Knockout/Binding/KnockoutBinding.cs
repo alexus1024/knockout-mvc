@@ -58,10 +58,16 @@ namespace PerpetuumSoft.Knockout
       return this;
     }
 
+    public KnockoutBinding<TModel> Readonly(Expression<Func<TModel, object>> binding)
+    {
+        this.Attr("readonly", binding);
+      return this;
+    }
+
     public KnockoutBinding<TModel> Disable(Expression<Func<TModel, bool>> binding)
     {
-      Items.Add(new KnockoutBindingItem<TModel, bool> { Name = "disable", Expression = binding });
-      return this;
+        Items.Add(new KnockoutBindingItem<TModel, bool> { Name = "disable", Expression = binding });
+        return this;
     }
 
     public KnockoutBinding<TModel> Enable(Expression<Func<TModel, bool>> binding)
