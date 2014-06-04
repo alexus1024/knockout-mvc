@@ -214,6 +214,20 @@ namespace PerpetuumSoft.Knockout
 			return this;
 		}
 
+		public KnockoutBinding<TModel> FixSeletedDropDownItem<TItem>(Expression<Func<TModel, IList<TItem>>> itemsPath, Expression<Func<TModel, object>> objectValuePath,
+	String uniquePropertyPath)
+		{
+			var r = KnockoutExpressionConverter.Convert(objectValuePath);
+
+			var item = new KnockoutBingindComplexItem() { Name = "fixSeletedDropDownItem" };
+			item.Add(new KnockoutExpressionBindingItem() { Name = "items", ExpressionRaw = itemsPath });
+			item.Add(new KnockoutExpressionBindingItem() { Name = "valuePath", ExpressionRaw = objectValuePath });
+			item.Add(new KnockoutBindingStringItem() {Name = "uniquePropertyPath", Value = uniquePropertyPath, NeedQuotes = true});
+
+			Items.Insert(0, item);
+			return this;
+		}
+		
 		/// <summary>
 		/// Биндинг с форматированием даты с использованием http://momentjs.com/
 		/// </summary>
