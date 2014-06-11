@@ -81,7 +81,9 @@ namespace PerpetuumSoft.Knockout
 			}
 			return tagBuilder;
 		}
-		public KnockoutTagBuilder<TModel> DropDownList<TItem>(Expression<Func<TModel, IList<TItem>>> options, object htmlAttributes = null, string OptionsTextValue = null, string OptionsIdValue = null)
+
+		public KnockoutTagBuilder<TModel> DropDownList<TItem>(Expression<Func<TModel, IList<TItem>>> options, 
+			object htmlAttributes = null, string OptionsTextValue = null, string OptionsIdValue = null)
 		{
 			var tagBuilder = new KnockoutTagBuilder<TModel>(Context, "select", InstanceNames, Aliases);
 			tagBuilder.ApplyAttributes(htmlAttributes);
@@ -94,6 +96,26 @@ namespace PerpetuumSoft.Knockout
 			if (!string.IsNullOrEmpty(OptionsIdValue))
 			{
 				tagBuilder.OptionsValue(OptionsIdValue, true);
+			}
+			return tagBuilder;
+		}
+
+		public KnockoutTagBuilder<TModel> DropDownList<TItem>(Expression<Func<TModel, IList<TItem>>> options, 
+			object htmlAttributes = null, Expression<Func<TItem, object>> optionsText = null, Expression<Func<TItem, object>> optionsId = null)
+		{
+			var tagBuilder = new KnockoutTagBuilder<TModel>(Context, "select", InstanceNames, Aliases);
+			tagBuilder.ApplyAttributes(htmlAttributes);
+			if (options != null)
+				tagBuilder.Options(Expression.Lambda<Func<TModel, IEnumerable>>(options.Body, options.Parameters));
+			if (optionsText != null)
+			{
+				var data = new KnockoutExpressionData { InstanceNames = new[] { "item" } };
+				tagBuilder.OptionsText("function(item) { return " + KnockoutExpressionConverter.Convert(optionsText, data) + "; }");
+			}
+			if (optionsId != null)
+			{
+				var data = new KnockoutExpressionData { InstanceNames = new[] { "item" } };
+				tagBuilder.OptionsValue("function(item) { return " + KnockoutExpressionConverter.Convert(optionsId, data) + "; }");
 			}
 			return tagBuilder;
 		}
