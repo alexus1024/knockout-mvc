@@ -227,27 +227,7 @@ namespace PerpetuumSoft.Knockout
 			Items.Insert(0, item);
 			return this;
 		}
-		
-		/// <summary>
-		/// Биндинг с форматированием даты с использованием http://momentjs.com/
-		/// </summary>
-		/// <param name="titleBinding"></param>
-		/// <param name="momentJsTimeFormat"></param>
-		/// <param name="isFromNow">использовать ли .fromNow()</param>
-		/// <returns></returns>
-		KnockoutBinding<TModel> TextDateTimeFormatHelper(Expression<Func<TModel, object>> titleBinding, string momentJsTimeFormat, Boolean isFromNow, Boolean isFromNowPostfix)
-		{
-			var item = new KnockoutBingindComplexItem() { Name = "textDateTimeFormat" };
-			item.Add(new KnockoutExpressionBindingItem() { Name = "value", ExpressionRaw = titleBinding });
-			item.Add(new KnockoutBindingStringItem("format", momentJsTimeFormat));
-			if (isFromNow)
-			{
-				item.Add(new KnockoutBindingStringItem("fromNow", isFromNowPostfix ? "false" : "true"));
-			}
 
-			Items.Add(item);
-			return this;
-		}
 
 		/// <summary>
 		/// Биндинг отображеиня TimeSpan'a с использованием http://momentjs.com/
@@ -260,17 +240,33 @@ namespace PerpetuumSoft.Knockout
 			Items.Add(item);
 			return this;
 		}
-
-		public KnockoutBinding<TModel> TextDateTimeFormat(Expression<Func<TModel, object>> titleBinding,
-														   string momentJsTimeFormat)
+		
+		/// <summary>
+		/// Биндинг с форматированием даты с использованием http://momentjs.com/
+		/// </summary>
+		/// <param name="titleBinding"></param>
+		/// <param name="momentJsTimeFormat"></param>
+		/// <param name="isFromNow">использовать ли .fromNow()</param>
+		/// <returns></returns>
+		KnockoutBinding<TModel> TextDateTimeFormatHelper(Expression<Func<TModel, object>> titleBinding, string momentJsTimeFormat, string momentJsTimeZoneName = null)
 		{
-			return TextDateTimeFormatHelper(titleBinding, momentJsTimeFormat, false, false);
+			var item = new KnockoutBingindComplexItem() { Name = "textDateTimeFormat" };
+			item.Add(new KnockoutExpressionBindingItem() { Name = "value", ExpressionRaw = titleBinding });
+			item.Add(new KnockoutBindingStringItem("format", momentJsTimeFormat));
+			item.Add(new KnockoutBindingStringItem("timeZone", momentJsTimeZoneName));
+
+			Items.Add(item);
+			return this;
 		}
 
-		public KnockoutBinding<TModel> TextDateTimeFormatFromNow(Expression<Func<TModel, object>> titleBinding,
-													   Boolean usePostfix = true)
+		public KnockoutBinding<TModel> TextDateTimeFormat(Expression<Func<TModel, object>> titleBinding, string momentJsTimeFormat, string momentJsTimeZoneName = null)
 		{
-			return TextDateTimeFormatHelper(titleBinding, "", true, usePostfix);
+			return TextDateTimeFormatHelper(titleBinding, momentJsTimeFormat, momentJsTimeZoneName);
+		}
+
+		public KnockoutBinding<TModel> TextMoscowDateTimeFormat(Expression<Func<TModel, object>> titleBinding, string momentJsTimeFormat)
+		{
+			return TextDateTimeFormatHelper(titleBinding, momentJsTimeFormat, "Europe/Moscow");
 		}
 
 		// *** list manipulation ***  

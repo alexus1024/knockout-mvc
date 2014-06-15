@@ -3,20 +3,20 @@
 		var params = valueAccessor();
 		var value = ko.unwrap(params.value);
 		var format = ko.unwrap(params.format);
-		var isFromNow = ko.unwrap(params.fromNow);
+		var timeZone = ko.unwrap(params.timeZone);
 
-		var momentValue = moment(value);
+		if (!timeZone) {
+			if (!viewModel.ServerTimeZone) {
+				//https://echo.centre-it.com/jira/browse/IBSSC-2285
+				var e = 'viewModel does not implements the IServerTimeZoneViewModel interface';
+				console.error(e);
+				throw new Error(e);
+			}
 
-		var formatedValue;
-
-		if (isFromNow == undefined | isFromNow == null) {
-			formatedValue = momentValue.format(format);
-		} else {
-			var hasPrefix = (isFromNow === 'true');
-			formatedValue = momentValue.fromNow(hasPrefix);
+			timeZone = 'Etc/GMT-' + viewModel.ServerTimeZone();
 		}
 
+		var formatedValue = moment(value).tz(timeZone).format(format);
 		$(element).text(formatedValue);
-
 	}
 };
