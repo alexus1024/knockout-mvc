@@ -249,6 +249,18 @@ namespace PerpetuumSoft.Knockout
 			return this;
 		}
 
+		/// <summary>
+		/// Биндинг отображеиня TimeSpan'a с использованием http://momentjs.com/
+		/// </summary>
+		public KnockoutBinding<TModel> TextTimeSpan(Expression<Func<TModel, TimeSpan>> timeSpanBinding)
+		{
+			var item = new KnockoutBingindComplexItem() { Name = "textTimeSpan" };
+			item.Add(new KnockoutExpressionBindingItem() { Name = "value", ExpressionRaw = timeSpanBinding });
+
+			Items.Add(item);
+			return this;
+		}
+
 		public KnockoutBinding<TModel> TextDateTimeFormat(Expression<Func<TModel, object>> titleBinding,
 														   string momentJsTimeFormat)
 		{
