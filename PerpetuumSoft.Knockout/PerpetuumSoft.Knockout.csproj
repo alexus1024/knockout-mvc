@@ -143,6 +143,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\totals.binding.js" />
+    <Content Include="Scripts\numeric.binding.js" />
     <Content Include="Scripts\textDateTimeFormat.binding.js" />
     <Content Include="Scripts\listmanipulation.binding.js" />
     <Content Include="Scripts\perpetuum.knockout.js" />

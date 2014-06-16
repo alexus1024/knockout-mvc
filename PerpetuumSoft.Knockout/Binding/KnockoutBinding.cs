@@ -217,8 +217,6 @@ namespace PerpetuumSoft.Knockout
 		public KnockoutBinding<TModel> FixSeletedDropDownItem<TItem>(Expression<Func<TModel, IList<TItem>>> itemsPath, Expression<Func<TModel, object>> objectValuePath,
 	String uniquePropertyPath)
 		{
-			var r = KnockoutExpressionConverter.Convert(objectValuePath);
-
 			var item = new KnockoutBingindComplexItem() { Name = "fixSeletedDropDownItem" };
 			item.Add(new KnockoutExpressionBindingItem() { Name = "items", ExpressionRaw = itemsPath });
 			item.Add(new KnockoutExpressionBindingItem() { Name = "valuePath", ExpressionRaw = objectValuePath });
@@ -240,6 +238,7 @@ namespace PerpetuumSoft.Knockout
 			Items.Add(item);
 			return this;
 		}
+
 		
 		/// <summary>
 		/// Биндинг с форматированием даты с использованием http://momentjs.com/
@@ -336,6 +335,26 @@ namespace PerpetuumSoft.Knockout
 
 		}
 
+		public KnockoutBinding<TModel> Tooltip(Expression<Func<TModel, int>> titleBinding, Int32 delayShowMs = 0, Int32 delayHideMs = 0, Placement placement = Placement.Top)
+		{
+
+			var delayItem = new KnockoutBingindComplexItem() { Name = "delay" };
+			delayItem.Add(new KnockoutBindingStringItem("show", delayShowMs.ToString(CultureInfo.InvariantCulture)));
+			delayItem.Add(new KnockoutBindingStringItem("hide", delayHideMs.ToString(CultureInfo.InvariantCulture)));
+
+			var item = new KnockoutBingindComplexItem() { Name = "tooltip" };
+			item.Add(new KnockoutExpressionBindingItem() { Name = "title", ExpressionRaw = titleBinding });
+			item.Add(new KnockoutBindingStringItem("placement", placement.ToString().ToLower()));
+			item.Add(delayItem);
+
+			Items.Add(item);
+			return this;
+
+			//CustomObject("tooltip", new KnockoutBindingPropertyInfo {Name = "title", Expression = listPath},
+			//	new KnockoutBindingPropertyInfo());
+
+		}
+
 		public KnockoutBinding<TModel> Tooltip(Expression<Func<TModel, object>> titleBinding, Placement placement)
 		{
 			return Tooltip(titleBinding, 0, 0, placement);
@@ -358,6 +377,24 @@ namespace PerpetuumSoft.Knockout
 			//CustomObject("tooltip", new KnockoutBindingPropertyInfo {Name = "title", Expression = listPath},
 			//	new KnockoutBindingPropertyInfo());
 
+		}
+
+		public KnockoutBinding<TModel> OnlyNumericInput()
+		{
+			Items.Add(new KnockoutBindingStringItem { Name = "numeric", Value = ""});
+			return this;
+		}
+
+		public KnockoutBinding<TModel> Totals<TItem>(Expression<Func<TModel, IList<TItem>>> sourceList, Expression<Func<TItem, object>> totalPropertyPath, Expression<Func<TModel, TItem>> totalsItem)
+		{
+			var totalProperyName = KnockoutExpressionConverter.Convert(totalPropertyPath);
+			var totalsBinding = new KnockoutBingindComplexItem() { Name = "totals" };
+			totalsBinding.Add(new KnockoutExpressionBindingItem() { Name = "sourceList", ExpressionRaw = sourceList });
+			totalsBinding.Add(new KnockoutBindingStringItem() { Name = "totalProperyName", Value = totalProperyName, NeedQuotes = true});
+			totalsBinding.Add(new KnockoutExpressionBindingItem() { Name = "totalsItem", ExpressionRaw = totalsItem });
+
+			Items.Add(totalsBinding);
+			return this;
 		}
 
 		// *** Common ***
