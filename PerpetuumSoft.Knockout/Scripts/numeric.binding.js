@@ -8,7 +8,9 @@
 				// Allow: . ,
 				(event.keyCode == 188 || event.keyCode == 190 || event.keyCode == 110) ||
 				// Allow: home, end, left, right
-				(event.keyCode >= 35 && event.keyCode <= 39)) {
+				(event.keyCode >= 35 && event.keyCode <= 39) ||
+				//Allow F5
+				(event.keyCode >= 116)) {
 				// let it happen, don't do anything
 				return;
 			}
