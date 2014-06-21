@@ -37,14 +37,12 @@ ko.bindingHandlers.listItemManipulation = {
 		$(element).on('click', function () {
 			var params = valueAccessor();
 
-			var list = ko.unwrap(params.list);
+			var list = params.list;
 			var index = params.index();
 
 			var funcName = ko.unwrap(params.funcName);
 
-			var item = list[index];
-
-			funcName(list, item);
+			funcName(list, index);
 		});
 	}
 };
