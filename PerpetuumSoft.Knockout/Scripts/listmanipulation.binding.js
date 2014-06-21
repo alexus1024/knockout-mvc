@@ -30,4 +30,21 @@ ko.bindingHandlers.removeItem = {
 			refresh(params.list);
 		});
 	}
+}
+
+ko.bindingHandlers.listItemManipulation = {
+	init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+		$(element).on('click', function () {
+			var params = valueAccessor();
+
+			var list = ko.unwrap(params.list);
+			var index = params.index();
+
+			var funcName = ko.unwrap(params.funcName);
+
+			var item = list[index];
+
+			funcName(list, item);
+		});
+	}
 };
