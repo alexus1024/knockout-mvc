@@ -97,9 +97,9 @@ namespace PerpetuumSoft.Knockout
       return sb.ToString();
     }
 
-    public HtmlString Initialize(TModel model)
+    public HtmlString Initialize(TModel model, string custommapping = null)
     {
-      return new HtmlString(GetInitializeData(model, false));
+		return new HtmlString(GetInitializeData(model, false, custommapping));
     }
 
     public HtmlString Apply(TModel model, string customMapping = null)
