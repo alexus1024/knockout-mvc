@@ -16,7 +16,13 @@
 			timeZone = 'Etc/GMT-' + viewModel.ServerTimeZone();
 		}
 
-		var formatedValue = moment(value).tz(timeZone).format(format);
+		var formatedValue;
+		if (value) {
+			formatedValue = moment(value).tz(timeZone).format(format);
+		} else {
+			formatedValue = "";
+		}
+
 		$(element).text(formatedValue);
 	}
 };
