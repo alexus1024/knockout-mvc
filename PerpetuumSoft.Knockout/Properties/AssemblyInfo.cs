@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("PerpetuumSoft.Knockout")]
@@ -15,3 +17,5 @@ using System.Runtime.InteropServices;
 [assembly: Guid("f25a11e1-9cd5-4b2b-a7e4-c09103e3b2fd")]
 
 [assembly: AssemblyVersion("0.5.4")]
+
+[assembly: CLSCompliant(true)]
