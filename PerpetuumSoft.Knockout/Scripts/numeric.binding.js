@@ -1,5 +1,5 @@
 ﻿ko.bindingHandlers.numeric = {
-	init: function (element, valueAccessor) {
+	init: function (element, valueAccessor, allBindingsAccessors) {
 		$(element).on("keydown", function (event) {
 			// Allow: backspace, delete, tab, escape, and enter
 			if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
@@ -21,5 +21,20 @@
 				}
 			}
 		});
+
+
+		var allBindings = ko.unwrap(allBindingsAccessors());
+		if (allBindings.value) {
+			var valueObservable = allBindings.value;
+			if (ko.isObservable(valueObservable)) {
+				valueObservable.subscribe(function (v) {
+					if (v == "" || v == null) {
+						valueObservable(null);
+					} else {
+						valueObservable(parseInt(v));
+					}
+				});
+			}
+		}
 	}
 };
