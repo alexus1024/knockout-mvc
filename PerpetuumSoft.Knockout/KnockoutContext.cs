@@ -40,7 +40,7 @@ namespace PerpetuumSoft.Knockout
 
 	public class KnockoutContext<TModel> : IKnockoutContext
   {
-		public const string ViewModelName = KnockoutConst.ViewModelName;
+		public const string ViewModelName = KnockoutConstants.ViewModelName;
 
 	internal TModel model;
 
