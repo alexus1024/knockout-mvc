@@ -28,10 +28,18 @@
 			var valueObservable = allBindings.value;
 			if (ko.isObservable(valueObservable)) {
 				valueObservable.subscribe(function (v) {
+
+					if (typeof (v) == 'number')
+						return;
+
 					if (v == "" || v == null) {
 						valueObservable(null);
+					} else if (v == "0") {
+						valueObservable(0);
 					} else {
-						valueObservable(parseInt(v));
+						var result = parseInt(v);
+						if (result != NaN)
+							valueObservable(result);
 					}
 				});
 			}
