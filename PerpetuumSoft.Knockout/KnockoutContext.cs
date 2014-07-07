@@ -10,6 +10,11 @@ using Newtonsoft.Json;
 
 namespace PerpetuumSoft.Knockout
 {
+	public static class KnockoutConstants
+	{
+		public const string ViewModelName = "viewModel";
+	}
+
   public interface IKnockoutContext
   {
     string GetInstanceName();
@@ -35,7 +40,7 @@ namespace PerpetuumSoft.Knockout
 
 	public class KnockoutContext<TModel> : IKnockoutContext
   {
-    public const string ViewModelName = "viewModel";
+		public const string ViewModelName = KnockoutConst.ViewModelName;
 
 	internal TModel model;
 
