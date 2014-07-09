@@ -311,6 +311,28 @@ namespace PerpetuumSoft.Knockout
 			return this;
 		}
 
+		public KnockoutBinding<TModel> MoveItemUp(Expression<Func<TModel, object>> listPath, Boolean buttonAutoDisable = true)
+		{
+			var item = new KnockoutBingindComplexItem() { Name = "moveItemUp" };
+			item.Add(new KnockoutExpressionBindingItem() { Name = "list", ExpressionRaw = listPath });
+			item.Add(new KnockoutBindingStringItem("index", "$index", false));
+			item.Add(new KnockoutBindingStringItem("buttonAutoDisable", buttonAutoDisable.ToString().ToLower(), false));
+
+			Items.Add(item);
+			return this;
+		}
+
+		public KnockoutBinding<TModel> MoveItemDown(Expression<Func<TModel, object>> listPath, Boolean buttonAutoDisable = true)
+		{
+			var item = new KnockoutBingindComplexItem() { Name = "moveItemDown" };
+			item.Add(new KnockoutExpressionBindingItem() { Name = "list", ExpressionRaw = listPath });
+			item.Add(new KnockoutBindingStringItem("index", "$index", false));
+			item.Add(new KnockoutBindingStringItem("buttonAutoDisable", buttonAutoDisable.ToString().ToLower(), false));
+
+			Items.Add(item);
+			return this;
+		}
+
 		// *** list manipulation ***  
 
 		// *** Custom ***    

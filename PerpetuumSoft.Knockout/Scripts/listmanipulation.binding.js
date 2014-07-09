@@ -46,3 +46,49 @@ ko.bindingHandlers.listItemManipulation = {
 		});
 	}
 };
+
+
+ko.bindingHandlers.moveItemUp = {
+	init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+		var params = valueAccessor();
+
+		var list = ko.unwrap(params.list);
+		var index = params.index();
+		var buttonAutoDisable = params.buttonAutoDisable;
+
+		if (buttonAutoDisable && index == 0)
+			$(element).attr("disabled", "disabled");
+
+		$(element).on('click', function () {
+			if (index >= 1) {
+				var array = list;
+				list.splice(index - 1, 2, array[index], array[index - 1]);
+
+				refresh(params.list);
+			}
+		});
+	}
+};
+
+ko.bindingHandlers.moveItemDown = {
+	init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+		var params = valueAccessor();
+
+		var list = ko.unwrap(params.list);
+		var index = params.index();
+		var buttonAutoDisable = params.buttonAutoDisable;
+
+		if (buttonAutoDisable && index == list.length - 1)
+			$(element).attr("disabled", "disabled");
+
+		$(element).on('click', function () {
+
+			if (index < list.length - 1) {
+				var array = list;
+				list.splice(index, 2, array[index + 1], array[index]);
+
+				refresh(params.list);
+			}
+		});
+	}
+};
