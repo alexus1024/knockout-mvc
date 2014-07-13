@@ -31,6 +31,18 @@ namespace PerpetuumSoft.Knockout
 			return tagBuilder;
 		}
 
+		private KnockoutTagBuilder<TModel> InputWithInnerHtml(String text, string type, object htmlAttributes = null)
+		{
+			var tagBuilder = new KnockoutTagBuilder<TModel>(Context, "input", InstanceNames, Aliases);
+			tagBuilder.ApplyAttributes(htmlAttributes);
+			if (!string.IsNullOrWhiteSpace(type))
+				tagBuilder.ApplyAttributes(new { type });
+			if (text != null)
+				tagBuilder.SetInnerHtml(text);
+			tagBuilder.TagRenderMode = TagRenderMode.Normal;
+			return tagBuilder;
+		}
+
 		public KnockoutTagBuilder<TModel> TextBox(Expression<Func<TModel, object>> text, object htmlAttributes = null)
 		{
 			return Input(text, "text", htmlAttributes);
@@ -53,9 +65,9 @@ namespace PerpetuumSoft.Knockout
 			return tagBuilder;
 		}
 
-		public KnockoutTagBuilder<TModel> CheckBox(Expression<Func<TModel, object>> @checked, object htmlAttributes = null)
+		public KnockoutTagBuilder<TModel> CheckBox(Expression<Func<TModel, object>> @checked, object htmlAttributes = null, String checkLabel = null)
 		{
-			var tagBuilder = Input(null, "checkbox", htmlAttributes);
+			var tagBuilder = InputWithInnerHtml(checkLabel, "checkbox", htmlAttributes);
 			tagBuilder.Checked(@checked);
 			return tagBuilder;
 		}
