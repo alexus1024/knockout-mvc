@@ -48,6 +48,21 @@ ko.bindingHandlers.listItemManipulation = {
 };
 
 
+ko.bindingHandlers.listManipulation = {
+	init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+		$(element).on('click', function () {
+			var params = valueAccessor();
+
+			var list = params.list;
+
+			var funcName = ko.unwrap(params.funcName);
+
+			funcName(list);
+		});
+	}
+};
+
+
 ko.bindingHandlers.moveItemUp = {
 	init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
 		var params = valueAccessor();

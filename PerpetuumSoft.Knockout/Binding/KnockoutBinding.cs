@@ -301,6 +301,16 @@ namespace PerpetuumSoft.Knockout
 			return this;
 		}
 
+		public KnockoutBinding<TModel> ListManipulation(Expression<Func<TModel, object>> listPath, string manipulationFunctionName)
+		{
+			var item = new KnockoutBingindComplexItem() { Name = "listManipulation" };
+			item.Add(new KnockoutExpressionBindingItem() { Name = "list", ExpressionRaw = listPath });
+			item.Add(new KnockoutBindingStringItem("funcName", manipulationFunctionName, false));
+
+			Items.Add(item);
+			return this;
+		}
+
 		public KnockoutBinding<TModel> RemoveItem(Expression<Func<TModel, object>> listPath)
 		{
 			var item = new KnockoutBingindComplexItem() { Name = "removeItem" };
