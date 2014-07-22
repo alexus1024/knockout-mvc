@@ -37,9 +37,14 @@
 					} else if (v == "0") {
 						valueObservable(0);
 					} else {
-						var result = parseInt(v);
-						if (result != NaN)
-							valueObservable(result);
+						var newValue = parseInt(v);
+						var currentValue = parseInt(valueObservable());
+
+						if (currentValue == newValue)
+							return;
+
+						if (newValue != NaN)
+							valueObservable(newValue);
 					}
 				});
 			}
