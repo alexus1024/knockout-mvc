@@ -252,6 +252,12 @@ namespace PerpetuumSoft.Knockout
 		  object result = Expression.Lambda(expression).Compile().DynamicInvoke();
 		  return string.Format("'{0}/'", result);
 	  }
+	  if (m.Method.Name.Equals("Format"))
+	  {
+		  MethodCallExpression expression = m;
+		  object result = Expression.Lambda(expression).Compile().DynamicInvoke();
+		  return result.ToString();
+	  }
 	  if (m.Arguments.Count == 0 && m.Method.Name == "ToString")
       {
         if (m.Object is ParameterExpression && lambdaFrom.Contains((m.Object as ParameterExpression).Name))
