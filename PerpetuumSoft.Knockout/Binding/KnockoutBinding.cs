@@ -269,12 +269,14 @@ namespace PerpetuumSoft.Knockout
 		}
 
 		// *** list manipulation ***  
-		public KnockoutBinding<TModel> AddItem<T>(Expression<Func<TModel, object>> listPath, T prefilInstance)
+		public KnockoutBinding<TModel> AddItem<T>(Expression<Func<TModel, object>> listPath, T prefilInstance, String afterAddCallback = null)
 		{
-			var item = new KnockoutBingindComplexItem() { Name = "addItem" };
-			item.Add(new KnockoutExpressionBindingItem() { Name = "list", ExpressionRaw = listPath });
+			var item = new KnockoutBingindComplexItem { Name = "addItem" };
+			item.Add(new KnockoutExpressionBindingItem{ Name = "list", ExpressionRaw = listPath });
 			var templateInstance = JsonConvert.SerializeObject(prefilInstance).ToString(CultureInfo.InvariantCulture).Replace('"', '\'');
 			item.Add(new KnockoutBindingStringItem("templateInstance", templateInstance, false));
+			if (!string.IsNullOrWhiteSpace(afterAddCallback))
+				item.Add(new KnockoutBindingStringItem("afterAddCallback", afterAddCallback, true));
 
 			Items.Add(item);
 			return this;
