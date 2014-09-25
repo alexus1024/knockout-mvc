@@ -10,10 +10,19 @@ ko.bindingHandlers.addItem = {
 			var params = valueAccessor();
 
 			var list = ko.unwrap(params.list);
-			var newItem = ko.mapping.fromJS(params.templateInstance);
+
+
+			var jsTemplate = ko.mapping.toJS(params.templateInstance); // если не делать такого копирования, то некоторые observable берутся из оригнигинала без копирования, что приводит к тому, что новый элемент биндится не туда.
+			var newItem = ko.mapping.fromJS(jsTemplate);
 
 			list.push(newItem);
 			refresh(params.list);
+
+			var callback = window[params.afterAddCallback];
+			if (callback) {
+				callback(newItem, list);
+			}
+
 		});
 	}
 };
