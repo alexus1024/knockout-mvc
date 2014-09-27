@@ -247,17 +247,26 @@ namespace PerpetuumSoft.Knockout
 		/// <param name="momentJsTimeFormat"></param>
 		/// <param name="isFromNow">использовать ли .fromNow()</param>
 		/// <returns></returns>
-		KnockoutBinding<TModel> TextDateTimeFormatHelper(Expression<Func<TModel, object>> titleBinding, string momentJsTimeFormat, string momentJsTimeZoneName = null)
+		KnockoutBinding<TModel> TextDateTimeFormatHelper(Expression<Func<TModel, object>> titleBinding, string momentJsTimeFormat, string momentJsTimeZoneName = null, Boolean isFromNow = false, Boolean fromNowSuffix = true)
 		{
 			var item = new KnockoutBingindComplexItem() { Name = "textDateTimeFormat" };
 			item.Add(new KnockoutExpressionBindingItem() { Name = "value", ExpressionRaw = titleBinding });
 			item.Add(new KnockoutBindingStringItem("format", momentJsTimeFormat));
 			item.Add(new KnockoutBindingStringItem("timeZone", momentJsTimeZoneName));
+			item.Add(new KnockoutBindingStringItem("fromNow", isFromNow.ToString()));
+			item.Add(new KnockoutBindingStringItem("fromNowSuffix", fromNowSuffix.ToString()));
 
 			Items.Add(item);
 			return this;
 		}
 
+		/// <summary>
+		/// Отображение времени с помощь Moment.Js
+		/// </summary>
+		/// <param name="titleBinding"></param>
+		/// <param name="momentJsTimeFormat">Пример: dddd, DD MMMM YYYY HH:mm</param>
+		/// <param name="momentJsTimeZoneName"></param>
+		/// <returns></returns>
 		public KnockoutBinding<TModel> TextDateTimeFormat(Expression<Func<TModel, object>> titleBinding, string momentJsTimeFormat, string momentJsTimeZoneName = null)
 		{
 			return TextDateTimeFormatHelper(titleBinding, momentJsTimeFormat, momentJsTimeZoneName);
@@ -266,6 +275,12 @@ namespace PerpetuumSoft.Knockout
 		public KnockoutBinding<TModel> TextMoscowDateTimeFormat(Expression<Func<TModel, object>> titleBinding, string momentJsTimeFormat)
 		{
 			return TextDateTimeFormatHelper(titleBinding, momentJsTimeFormat, "Europe/Moscow");
+		}
+
+		public KnockoutBinding<TModel> TextDateTimeFormatFromNow(Expression<Func<TModel, object>> titleBinding, Boolean suffix = true)
+		{
+			var ret = TextDateTimeFormatHelper(titleBinding, null, null, true, !suffix);
+			return ret;
 		}
 
 		// *** list manipulation ***  
