@@ -171,12 +171,17 @@ namespace PerpetuumSoft.Knockout
     public KnockoutForeachContext<TItem> Foreach<TItem>(Expression<Func<TModel, IList<TItem>>> binding, string afterRender = null)
     {
       var expression = KnockoutExpressionConverter.Convert(binding, CreateData());
-	  var regionContext = new KnockoutForeachContext<TItem>(viewContext, expression, afterRender);
-      regionContext.WriteStart(viewContext.Writer);
-      regionContext.ContextStack = ContextStack;
-      ContextStack.Add(regionContext);
-      return regionContext;
+	    return Foreach<TItem>(expression, afterRender);
     }
+
+	public KnockoutForeachContext<TItem> Foreach<TItem>(string expression, string afterRender = null)
+	{
+		var regionContext = new KnockoutForeachContext<TItem>(viewContext, expression, afterRender);
+		regionContext.WriteStart(viewContext.Writer);
+		regionContext.ContextStack = ContextStack;
+		ContextStack.Add(regionContext);
+		return regionContext;
+	}
 
 	public KnockoutWithContext<TItem> With<TItem>(Expression<Func<TModel, TItem>> binding)
     {
@@ -195,11 +200,17 @@ namespace PerpetuumSoft.Knockout
 
     public KnockoutIfContext<TModel> If(Expression<Func<TModel, bool>> binding)
     {
-      var regionContext = new KnockoutIfContext<TModel>(viewContext, KnockoutExpressionConverter.Convert(binding));
-      regionContext.InStack = false;
-      regionContext.WriteStart(viewContext.Writer);
-      return regionContext;
+	    var expression = KnockoutExpressionConverter.Convert(binding);
+	    return If(expression);
     }
+
+	public KnockoutIfContext<TModel> If(String expression)
+	{
+		var regionContext = new KnockoutIfContext<TModel>(viewContext, expression);
+		regionContext.InStack = false;
+		regionContext.WriteStart(viewContext.Writer);
+		return regionContext;
+	}
 
     public string GetInstanceName()
     {
