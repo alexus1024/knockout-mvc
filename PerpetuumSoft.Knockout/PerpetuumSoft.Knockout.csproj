@@ -79,7 +79,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DelegateDecompiler, Version=1.0.0.0, Culture=neutral, PublicKeyToken=93b26a10a04705bd, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)\packages\DelegateDecompiler.0.16.1\lib\net40-Client\DelegateDecompiler.dll</HintPath>
+      <HintPath>..\..\..\packages\DelegateDecompiler.0.17.0\lib\net40-Client\DelegateDecompiler.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Mono.Reflection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>$(SolutionDir)\packages\Mono.Reflection.1.0.0.0\lib\Mono.Reflection.dll</HintPath>
@@ -154,6 +155,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
