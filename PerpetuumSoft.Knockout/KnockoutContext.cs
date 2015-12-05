@@ -272,7 +272,7 @@ namespace PerpetuumSoft.Knockout
       url = url.Replace("%29", ")");
       url = url.Replace("%24", "$");
 
-		var vmFullPath = String.Join(".", ViewModelName, vmPath);
+		var vmFullPath = String.IsNullOrWhiteSpace(vmPath)? ViewModelName: String.Join(".", ViewModelName, vmPath);
 
 	  string exec = string.Format(@"executeOnServer({0}, '{1}')", vmFullPath, url);
       int startIndex = 0;
