@@ -14,11 +14,12 @@ namespace PerpetuumSoft.Knockout
     private readonly string controllerName;
     private readonly object routeValues;
     private readonly object htmlAttributes;
+	private readonly string _vmPath;
 
-    public KnockoutFormContext(
+	  public KnockoutFormContext(
       ViewContext viewContext,
       KnockoutContext<TModel> context, string[] instanceNames, Dictionary<string, string> aliases,
-      string actionName, string controllerName, object routeValues, object htmlAttributes)
+      string actionName, string controllerName, object routeValues, object htmlAttributes, string vmPath)
       : base(viewContext)
     {
       this.context = context;
@@ -28,14 +29,15 @@ namespace PerpetuumSoft.Knockout
       this.controllerName = controllerName;
       this.routeValues = routeValues;
       this.htmlAttributes = htmlAttributes;
-      InStack = false;
+		  _vmPath = vmPath;
+		  InStack = false;
     }
 
     public override void WriteStart(TextWriter writer)
     {
       var tagBuilder = new KnockoutTagBuilder<TModel>(context, "form", instanceNames, aliases);
       tagBuilder.ApplyAttributes(htmlAttributes);
-      tagBuilder.Submit(actionName, controllerName, routeValues);
+      tagBuilder.Submit(actionName, controllerName, routeValues, _vmPath);
       tagBuilder.TagRenderMode = TagRenderMode.StartTag;
       writer.WriteLine(tagBuilder.ToHtmlString());
     }

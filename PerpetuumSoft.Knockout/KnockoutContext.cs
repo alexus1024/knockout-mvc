@@ -265,13 +265,16 @@ namespace PerpetuumSoft.Knockout
       }
     }
 
-    public MvcHtmlString ServerAction(string actionName, string controllerName, object routeValues = null)
+    public MvcHtmlString ServerAction(string actionName, string controllerName, object routeValues = null, String vmPath = null)
     {
       var url = Url().Action(actionName, controllerName, routeValues);
       url = url.Replace("%28", "(");
       url = url.Replace("%29", ")");
       url = url.Replace("%24", "$");
-      string exec = string.Format(@"executeOnServer({0}, '{1}')", ViewModelName, url);
+
+		var vmFullPath = String.Join(".", ViewModelName, vmPath);
+
+	  string exec = string.Format(@"executeOnServer({0}, '{1}')", vmFullPath, url);
       int startIndex = 0;
       const string parentPrefix = "$parentContext.";
       while (exec.Substring(startIndex).Contains("$index()"))

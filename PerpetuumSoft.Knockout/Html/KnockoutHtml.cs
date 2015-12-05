@@ -211,12 +211,12 @@ namespace PerpetuumSoft.Knockout
 			return tagBuilder;
 		}
 
-		public KnockoutFormContext<TModel> Form([AspMvcAction]string actionName, [AspMvcController]string controllerName, object routeValues = null, object htmlAttributes = null)
+		public KnockoutFormContext<TModel> Form([AspMvcAction]string actionName, [AspMvcController]string controllerName, object routeValues = null, object htmlAttributes = null, String vmPath = null)
 		{
 			var formContext = new KnockoutFormContext<TModel>(
 			  viewContext,
 			  Context, InstanceNames, Aliases,
-			  actionName, controllerName, routeValues, htmlAttributes);
+			  actionName, controllerName, routeValues, htmlAttributes, vmPath);
 			formContext.WriteStart(viewContext.Writer);
 			return formContext;
 		}

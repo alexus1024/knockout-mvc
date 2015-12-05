@@ -158,11 +158,11 @@ namespace PerpetuumSoft.Knockout
 		}
 
 		// *** Events ***
-		protected virtual KnockoutBinding<TModel> Event([AspMvcAction]string eventName, [AspMvcController]string actionName, string controllerName, object routeValues)
+		protected virtual KnockoutBinding<TModel> Event([AspMvcAction]string eventName, [AspMvcController]string actionName, string controllerName, object routeValues, String vmPath = null)
 		{
 			var sb = new StringBuilder();
 			sb.Append("function() {");
-			sb.Append(Context.ServerAction(actionName, controllerName, routeValues));
+			sb.Append(Context.ServerAction(actionName, controllerName, routeValues, vmPath));
 			sb.Append(";}");
 			Items.Add(new KnockoutBindingStringItem(eventName, sb.ToString(), false));
 			return this;
@@ -173,9 +173,9 @@ namespace PerpetuumSoft.Knockout
 			return Event("click", actionName, controllerName, routeValues);
 		}
 
-		public KnockoutBinding<TModel> Submit([AspMvcAction]string actionName, [AspMvcController]string controllerName, object routeValues = null)
+		public KnockoutBinding<TModel> Submit([AspMvcAction]string actionName, [AspMvcController]string controllerName, object routeValues = null, String vmPath = null)
 		{
-			return Event("submit", actionName, controllerName, routeValues);
+			return Event("submit", actionName, controllerName, routeValues, vmPath);
 		}
 
 		// *** Custom ***    
